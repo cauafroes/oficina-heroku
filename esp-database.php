@@ -28,8 +28,7 @@
       die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "INSERT INTO SensorData (sensor, location, value1, value2, value3)
-    VALUES ('" . $sensor . "', '" . $location . "', '" . $value1 . "', '" . $value2 . "', '" . $value3 . "')";
+    $sql = "INSERT INTO SensorData (sensor, location, value1, value2, value3) VALUES ('" . $sensor . "' , '" . $location . "' , '" . $value1 . "' , '" . $value2 . "' , '" . $value3 . "')";
 
     if ($conn->query($sql) === TRUE) {
       return "New record created successfully";
