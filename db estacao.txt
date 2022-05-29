@@ -1,0 +1,28 @@
+﻿INSERT INTO sensor (value1, value2, value3, value4, value5, value6) VALUES ('" . “30” . "', '" . $ . "', '" . $value3 . "', '" . $value4 . "', '" . $value5 . "', '" . $value6 . "')";
+
+//v2
+INSERT INTO sensor (sensor, location, temp, humi, press, rain, wind) VALUES ('BME280', 'Cefet/RJ', '30.00', '82.33', '103000', '1', '12');
+
+INSERT INTO SensorData (sensor, location, value1, value2, value3) VALUES (‘bme180’, ‘casa’, ’30’, ’50’, ‘1014.24’);
+
+
+
+curl -i -X POST -H 'Content-Type: text/plain’ -d ‘{“api_key”: “tPmAT5Ab3j7F9”, “sensor”: “bme180”, “location”: “casa”, “value1”: “30”,    “value2”: “50”, “value3”: “1000”}’ http://estacao-db.herokuapp.com/esp-post-data.php
+
+
+mysql://b6889f92935116:229c07b8@us-cdbr-east-05.cleardb.net/heroku_ed5853b1aff84c6?reconnect=true
+
+Username = b6889f92935116
+Password = 229c07b8
+Host = us-cdbr-east-05.cleardb.net
+Db name = heroku_ed5853b1aff84c6
+
+mysql://[username]:[password]@[host]/[database name]?reconnect=true
+
+
+mysql -u {username} -p'{password}' \
+        -h {remote server ip or name} -P {port} \
+        -D {DB name}
+
+For example
+mysql -u b6889f92935116 -p'229c07b8' -h us-cdbr-east-05.cleardb.net -P 3306 -D heroku_ed5853b1aff84c6
