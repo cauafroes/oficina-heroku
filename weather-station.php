@@ -31,7 +31,7 @@
     $last_reading_time = $last_reading["reading_time"];
 
     // Uncomment to set timezone to - 1 hour (you can change 1 to any number)
-    $last_reading_time = date("Y-m-d H:i:s", strtotime("$last_reading_time - 3 horas"));
+    $last_reading_time = date("Y-m-d H:i:s", strtotime("$last_reading_time - 3 hours"));
     // Uncomment to set timezone to + 7 hours (you can change 7 to any number)
     //$last_reading_time = date("Y-m-d H:i:s", strtotime("$last_reading_time + 7 hours"));
 
@@ -138,7 +138,7 @@
             $row_value5 = $row["wind"];
             $row_reading_time = $row["reading_time"];
             // Uncomment to set timezone to - 1 hour (you can change 1 to any number)
-            $row_reading_time = date("Y-m-d H:i:s", strtotime("$row_reading_time - 3 horas"));
+            $row_reading_time = date("Y-m-d H:i:s", strtotime("$row_reading_time - 3 hours"));
             // Uncomment to set timezone to + 7 hours (you can change 7 to any number)
             //$row_reading_time = date("Y-m-d H:i:s", strtotime("$row_reading_time + 7 hours"));
 
