@@ -31,7 +31,7 @@
     $last_reading_time = $last_reading["reading_time"];
 
     // Uncomment to set timezone to - 1 hour (you can change 1 to any number)
-    $last_reading_time = date("Y-m-d H:i:s", strtotime("$last_reading_time - 3 horas"));
+    $last_reading_time = date("d-m-Y H:i", strtotime("$last_reading_time - 3 hours"));
     // Uncomment to set timezone to + 7 hours (you can change 7 to any number)
     //$last_reading_time = date("Y-m-d H:i:s", strtotime("$last_reading_time + 7 hours"));
 
@@ -50,6 +50,7 @@
 
         <link rel="stylesheet" type="text/css" href="esp-style.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favico.ico">
         <title>OR - estacao</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
@@ -59,9 +60,10 @@
             <input type="number" name="readingsCount" min="1" placeholder="Número de leituras (<?php echo $readings_count; ?>)">
             <input type="submit" value="Buscar">
         </form>
+        <p class="headertax">Taxa de leitura: 1/min</p>
     </header>
 <body>
-    <p>Ultima leitura: <?php echo $last_reading_time; ?></p>
+    <p>Última leitura: <?php echo $last_reading_time; ?></p>
     <section class="content">
 	    <div class="box gauge--1">
 	    <h3>TEMPERATURA</h3>
@@ -72,7 +74,7 @@
 		    <p style="font-size: 30px;" id="temp">--</p>
 		    <table cellspacing="5" cellpadding="5">
 		        <tr>
-		            <th colspan="3">Ultimas <?php echo $readings_count; ?> leituras</th>
+		            <th colspan="3">Últimas <?php echo $readings_count; ?> leituras</th>
 	            </tr>
 		        <tr>
 		            <td>Min</td>
@@ -95,7 +97,7 @@
             <p style="font-size: 30px;" id="humi">--</p>
             <table cellspacing="5" cellpadding="5">
                 <tr>
-                    <th colspan="3">Ultimas <?php echo $readings_count; ?> leituras</th>
+                    <th colspan="3">Últimas <?php echo $readings_count; ?> leituras</th>
                 </tr>
                 <tr>
                     <td>Min</td>
@@ -111,7 +113,7 @@
         </div>
     </section>
 <?php
-    echo   '<h2> Ultimas ' . $readings_count . ' leituras</h2>
+    echo   '<h2> Últimas ' . $readings_count . ' leituras</h2>
             <table cellspacing="5" cellpadding="5" id="tableReadings">
                 <tr>
                     <th>ID</th>
@@ -138,7 +140,7 @@
             $row_value5 = $row["wind"];
             $row_reading_time = $row["reading_time"];
             // Uncomment to set timezone to - 1 hour (you can change 1 to any number)
-            $row_reading_time = date("Y-m-d H:i:s", strtotime("$row_reading_time - 3 horas"));
+            $row_reading_time = date("d-m-Y H:i", strtotime("$row_reading_time - 3 hours"));
             // Uncomment to set timezone to + 7 hours (you can change 7 to any number)
             //$row_reading_time = date("Y-m-d H:i:s", strtotime("$row_reading_time + 7 hours"));
 

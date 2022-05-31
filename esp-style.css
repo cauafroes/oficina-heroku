@@ -9,7 +9,7 @@
   copies or substantial portions of the Software.
 **/
 body {
-    width: 60%;
+    width: 80%;
     margin: auto;
     text-align: center;
     font-family: Arial;
@@ -38,7 +38,14 @@ h2 { font-size: 2.5rem; }
 .header {
 	 padding: 1rem;
 	 margin: 0 0 2rem 0;
+     width: 100%;
 	 background: #f2f2f2;
+}
+
+.headertax{
+    margin: 2% 0 0 0;
+    font-size: 0.8rem;
+    color: rgb(80, 80, 80);
 }
 
 h1 {
