@@ -17,10 +17,26 @@
       $data = htmlspecialchars($data);
       $readings_count = $_GET["readingsCount"];
     }
-    // default readings count set to 20
+    // default readings count set to 60
     else {
       $readings_count = 60;
     }
+    
+    $all_data = everything($readings_count);
+    while ($data = $all_data->fetch_assoc()){
+        $all_values[] = $data;
+    }
+    $graph_temp = json_encode(array_reverse(array_column($all_values, 'temp')), JSON_NUMERIC_CHECK);
+    $graph_humi = json_encode(array_reverse(array_column($all_values, 'humi')), JSON_NUMERIC_CHECK);
+    $graph_press = json_encode(array_reverse(array_column($all_values, 'press')), JSON_NUMERIC_CHECK);
+    $graph_reading_time = json_encode(array_reverse(array_column($all_values, 'reading_time')), JSON_NUMERIC_CHECK);
+    
+    /*
+    foreach ($teste123 as $value){
+        var_export(json_encode(array_reverse(array_column($teste123, 'temp')), JSON_NUMERIC_CHECK));
+        echo "<br>";
+    };
+    */
 
     $last_reading = getLastReadings();
     $last_reading_temp = $last_reading["temp"];
@@ -48,10 +64,11 @@
 <html>
     <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-        <link rel="stylesheet" type="text/css" href="esp-style.css">
+        <link rel="stylesheet" type="text/css" href="style.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/x-icon" href="favico.ico">
         <title>OR - estacao</title>
+        <script type="text/javascript" src="highcharts.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
     <header class="header">
@@ -60,10 +77,10 @@
             <input type="number" name="readingsCount" min="1" placeholder="Número de leituras (<?php echo $readings_count; ?>)">
             <input type="submit" value="Buscar">
         </form>
-        <p class="headertax">Taxa de leitura: 1/min</p>
     </header>
 <body>
     <p>Última leitura: <?php echo $last_reading_time; ?></p>
+    <p class="headertax">Taxa de leitura: 1/min</p>
     <section class="content">
 	    <div class="box gauge--1">
 	    <h3>TEMPERATURA</h3>
@@ -112,6 +129,11 @@
             </table>
         </div>
     </section>
+
+
+    <div id="chart-temperature" class="container"></div>
+    <div id="chart-humidity" class="container"></div>
+    <div id="chart-pressure" class="container"></div>
 <?php
     echo   '<h2> Últimas ' . $readings_count . ' leituras</h2>
             <table cellspacing="5" cellpadding="5" id="tableReadings">
@@ -203,6 +225,198 @@
         var capped = Math.min(from[1], Math.max(from[0], value)) - from[0];
         return ~~(capped * scale + to[0]);
     }
+</script>
+<script>
+
+var value1 = <?php echo $graph_temp; ?>;
+var value2 = <?php echo $graph_humi; ?>;
+var value3 = <?php echo $graph_press; ?>;
+var reading_time = <?php echo $graph_reading_time; ?>;
+
+
+/*
+        TEMA ESCURO: AUTORIA DE CAUÃ FRÓES
+
+Highcharts.setOptions({
+    colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+    chart: {
+        backgroundColor: '#333333',
+        borderWidth: 0,
+        plotBackgroundColor: '#333333',
+        plotBorderWidth: 0
+    },
+    title: {
+        style: {
+            color: '#e6e6e6',
+            font: '16px "Trebuchet MS", Verdana, sans-serif'
+        }
+    },
+    subtitle: {
+        style: {
+            color: '#e6e6e6',
+            font: '12px "Trebuchet MS", Verdana, sans-serif'
+        }
+    },
+    xAxis: {
+        gridLineWidth: 1,
+        gridLineColor: '#666666',
+        lineColor: '#595959',
+        tickColor: '#595959',
+        labels: {
+            style: {
+                color: '#e6e6e6',
+                font: '11px Trebuchet MS, Verdana, sans-serif'
+            }
+        },
+        title: {
+            style: {
+                color: '#e6e6e6',
+                fontWeight: 'bold',
+                fontSize: '12px',
+                fontFamily: 'Trebuchet MS, Verdana, sans-serif'
+
+            }
+        }
+    },
+    yAxis: {
+        alternateGridColor: null,
+        gridLineColor: '#666666',
+        minorTickInterval: 'none',
+        lineColor: '#595959',
+        lineWidth: 1,
+        tickWidth: 1,
+        labels: {
+            style: {
+                color: '#e6e6e6',
+                font: '11px Trebuchet MS, Verdana, sans-serif'
+            }
+        },
+        title: {
+            style: {
+                color: '#e6e6e6',
+                fontWeight: 'bold',
+                fontSize: '12px',
+                fontFamily: 'Trebuchet MS, Verdana, sans-serif'
+            }
+        }
+    },
+    legend: {
+        itemStyle: {
+            font: '9pt Trebuchet MS, Verdana, sans-serif',
+            color: 'white'
+
+        },
+        itemHoverStyle: {
+            color: '#e6e6e6'
+        },
+        itemHiddenStyle: {
+            color: 'gray'
+        }
+    },
+    credits: {
+        style: {
+            right: '10px'
+        }
+    },
+    labels: {
+        style: {
+            color: '#e6e6e6'
+        }
+    }
+});
+
+/*
+/*
+// create the chart
+Highcharts.chart('container', {
+
+xAxis: {
+    type: 'datetime'
+},
+
+series: [{
+    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+    pointStart: Date.UTC(2010, 0, 1),
+    pointInterval: 3600 * 1000 // one hour
+}]
+});
+*/
+
+
+var chartTH = new Highcharts.Chart({
+  chart:{ renderTo:'chart-temperature' }, 
+  title: { text: 'Temperatura' },
+  series: [{
+  showInLegend: false,
+  data: value1
+  }
+  ],
+  plotOptions: {
+    line: { animation: false,
+      dataLabels: { enabled: true},
+    },
+    series: {color: '#0F9FFF' }
+  },
+  xAxis: {
+    type: 'time',
+    dateTimeLabelFormats: { second: '%H:%M' },
+    categories: reading_time
+  },
+  yAxis: {
+    title: { text: 'Temperatura (ºC)' }
+  },
+  credits: { enabled: false }
+});
+
+var chartH = new Highcharts.Chart({
+  chart:{ renderTo:'chart-humidity' }, 
+  title: { text: 'Umidade' },
+  series: [{
+    showInLegend: false,
+    data: value2
+  }],
+  plotOptions: {
+    line: { animation: false,
+      dataLabels: { enabled: true},
+    },
+    series: {color: '#FF0F0F' }
+  },
+  xAxis: {
+    type: 'time',
+    dateTimeLabelFormats: { second: '%H:%M:%S' },
+    categories: reading_time
+  },
+  yAxis: {
+    title: { text: 'Umidade (%)' }
+  },
+  credits: { enabled: false }
+});
+
+var chartA = new Highcharts.Chart({
+  chart:{ renderTo:'chart-pressure' },
+  title: { text: 'Pressão' },
+  series: [{
+    showInLegend: false,
+    data: value3
+  }],
+  plotOptions: {
+    line: { animation: false,
+      dataLabels: { enabled: true},
+    },
+    series: { color: '#0FFF10' }
+  },
+  xAxis: {
+    type: 'datetime',
+    //dateTimeLabelFormats: { second: '%H:%M:%S' }
+    categories: reading_time
+  },
+  yAxis: {
+    title: { text: 'Pressão (Pa)' }
+  },
+  credits: { enabled: false }
+});
+
+
 </script>
 </body>
 </html>

@@ -39,6 +39,26 @@
     $conn->close();
   }
   
+  function everything($limit) {
+    global $servername, $username, $password, $dbname;
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "SELECT id, sensor, location, temp, humi, press, rain, wind, reading_time FROM sensor order by reading_time desc limit " . $limit;
+    if ($result = $conn->query($sql)) {
+      return $result;
+    }
+    else {
+      return false;
+    }
+    $conn->close();
+  }
+
   function getAllReadings($limit) {
     global $servername, $username, $password, $dbname;
 
@@ -58,6 +78,7 @@
     }
     $conn->close();
   }
+
   function getLastReadings() {
     global $servername, $username, $password, $dbname;
 
